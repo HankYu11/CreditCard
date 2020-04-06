@@ -1,9 +1,6 @@
 package com.hank.emptyapplication.data
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface CardDao{
@@ -11,24 +8,27 @@ interface CardDao{
     fun insertCard(card : Card)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertMyCard(myCard: MyCard)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertCoupon(coupon: Coupon)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertCardCoupon(cardCoupon: CardCoupon)
 
-    @Query("select * from Coupon where id == :coupon_id")
-    fun getCoupon(coupon_id : Int) : Coupon
+    @Query("Update CARD set card_my = 1 where id == :card_id")
+    fun setCardMy(card_id: Int)
 
-    @Query("select * from mycard")
-    fun getAllMyCard() : List<MyCard>
+    @Query("select type from card_coupon Inner join coupon on coupon_id == coupon.id where card_coupon.card_id = :card_id")
+    fun getCouponType(card_id : Int) : List<String>
+
+    @Query("select discount from card_coupon Inner join coupon on coupon_id == coupon.id where card_coupon.card_id = :card_id")
+    fun getCouponDiscount(card_id : Int) : List<String>
 
     @Query("select * from card")
     fun getAllCards() : List<Card>
 
-    @Query("select coupon_id from CardCoupon where card_id = :card_id")
-    fun getCouponID(card_id : String) : List<Int>
+    @Query("select id from COUPON")
+    fun getCouponID() : List<Int>
+
+    @Query("select coupon_id from CARD_COUPON")
+    fun getCardCouponCID() : List<Int>
 
 }

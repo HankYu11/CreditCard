@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = arrayOf(Card::class,MyCard::class,Coupon::class,CardCoupon::class),version = 1)
+@Database(entities = arrayOf(Card::class,Coupon::class,CardCoupon::class),version = 1)
 abstract class CardDatabase : RoomDatabase(){
     abstract fun cardDao() : CardDao
     companion object{
