@@ -26,20 +26,8 @@ class AllCardsFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         Log.d(TAG, "Create")
-        val database = CardDatabase.getInstance(context!!)
-        AsyncTask.execute {
-            val lstCard = database?.cardDao()?.getAllCards()
-            lstCard?.forEach{card ->
-                var lstType = database?.cardDao()?.getCouponType(card.id)
-                val lstDiscount = database?.cardDao()?.getCouponDiscount(card.id)
-                var content = ""
-                for(i in 0..(lstType.size-1)){
-                    content = content.plus((lstType[i]).plus(":"))
-                    content = content.plus(lstDiscount[i]).plus("\n")
-                }
-            listCard.add(CardPrefab(card.card_img,card.card_name,content))
-            }
-        }
+
+
     }
 
     override fun onCreateView(
@@ -55,10 +43,26 @@ class AllCardsFragment : Fragment() {
         val check1 = view.findViewById<CheckBox>(R.id.check_eat)
         myRecyclerView.layoutManager = LinearLayoutManager(activity)
         myRecyclerView.adapter = myRecyclerViewAdapter
+
+        val database = CardDatabase.getInstance(context!!)
+        doAsync{
+            val lstCard = database?.cardDao()?.getAllCards()
+            lstCard?.forEach{card ->
+                var lstType = database?.cardDao()?.getCouponType(card.id)
+                val lstDiscount = database?.cardDao()?.getCouponDiscount(card.id)
+                var content = ""
+                for(i in 0..(lstType.size-1)){
+                    content = content.plus((lstType[i]).plus(":"))
+                    content = content.plus(lstDiscount[i]).plus("\n")
+                }
+                listCard.add(CardPrefab(card.card_img,card.card_name,content))
+            }
+            uiThread { myRecyclerViewAdapter.notifyDataSetChanged() }
+        }
+
     //Set Listener
         check?.setOnCheckedChangeListener{_, isChecked ->
             listCard.clear()
-            val database = CardDatabase.getInstance(context!!)
                 if(isChecked){
                     doAsync{
                         val lstCard = database?.cardDao()?.getAllCards()
@@ -103,7 +107,6 @@ class AllCardsFragment : Fragment() {
 
         check1?.setOnCheckedChangeListener{_, isChecked ->
             listCard.clear()
-            val database = CardDatabase.getInstance(context!!)
             if(isChecked){
                 doAsync{
                     val lstCard = database?.cardDao()?.getAllCards()

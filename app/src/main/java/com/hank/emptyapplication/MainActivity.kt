@@ -40,12 +40,14 @@ class MainActivity : AppCompatActivity() {
     fun initData(){
         val database = CardDatabase.getInstance(this)
         //card
-        val card = Card("富邦",R.drawable.card,0)
-        val card1 = Card("玉山",R.drawable.card,1)
-        val card2 = Card("中信",R.drawable.card,2)
+        val card = Card("花旗",R.drawable.card,0)
+        val card1 = Card("玉山",R.drawable.card_yushan,1)
+        val card2 = Card("匯豐",R.drawable.card_huafon,2)
+        val card3 = Card("國泰",R.drawable.card_guotai,3)
         database?.cardDao()?.insertCard(card)
         database?.cardDao()?.insertCard(card1)
         database?.cardDao()?.insertCard(card2)
+        database?.cardDao()?.insertCard(card3)
         //coupon
         val coupon = Coupon("海外","50%",0)
         val coupon1 = Coupon("吃飯","30%",1)
@@ -56,9 +58,11 @@ class MainActivity : AppCompatActivity() {
         val cardCoupon1 = CardCoupon(card.id,coupon1.id,1)
         val cardCoupon2 = CardCoupon(card1.id,coupon.id,2)
         val cardCoupon3 = CardCoupon(card2.id,coupon1.id,3)
+        val cardCoupon4 = CardCoupon(card3.id,coupon.id,4)
         database?.cardDao()?.insertCardCoupon(cardCoupon)
         database?.cardDao()?.insertCardCoupon(cardCoupon1)
         database?.cardDao()?.insertCardCoupon(cardCoupon2)
         database?.cardDao()?.insertCardCoupon(cardCoupon3)
+        database?.cardDao()?.insertCardCoupon(cardCoupon4)
     }
 }
