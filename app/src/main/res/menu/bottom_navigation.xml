@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/nav_all"
-        android:icon="@drawable/ic_home_black_24dp"
+        android:icon="@drawable/ic_all_card"
         android:title="All cards" />
     <item
         android:id="@+id/nav_my"
-        android:icon="@drawable/ic_person_black_24dp"
+        android:icon="@drawable/ic_my_card"
         android:title="My cards"/>
     <item
         android:id="@+id/nav_else"

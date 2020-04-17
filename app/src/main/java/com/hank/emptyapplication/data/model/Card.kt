@@ -1,7 +1,9 @@
-package com.hank.emptyapplication.data
+package com.hank.emptyapplication.data.model
 
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.Relation
 
 @Entity(tableName = "card")
 class Card(
@@ -27,6 +29,7 @@ class CardCoupon(
     @PrimaryKey
     var id : Int
 )
+
 
 
 

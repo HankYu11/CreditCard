@@ -1,9 +1,17 @@
 package com.hank.emptyapplication.data
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.hank.emptyapplication.data.model.Card
+import com.hank.emptyapplication.data.model.CardCoupon
+import com.hank.emptyapplication.data.model.Coupon
 
 @Dao
 interface CardDao{
+
+    @Insert
+    fun insertAllCards(cards : List<Card>)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertCard(card : Card)
 

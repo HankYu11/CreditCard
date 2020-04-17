@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.os.AsyncTask
 import android.os.Bundle
+import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,8 +14,10 @@ import android.widget.CompoundButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.RoomDatabase
 import com.hank.emptyapplication.data.CardDatabase
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
@@ -24,10 +27,7 @@ class AllCardsFragment : Fragment() {
     val TAG = "AllCardsFragment"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         Log.d(TAG, "Create")
-
-
     }
 
     override fun onCreateView(
@@ -41,7 +41,7 @@ class AllCardsFragment : Fragment() {
         val myRecyclerViewAdapter = RecyclerViewAdapter(context!!,listCard)
         val check = view.findViewById<CheckBox>(R.id.check_oversea)
         val check1 = view.findViewById<CheckBox>(R.id.check_eat)
-        myRecyclerView.layoutManager = LinearLayoutManager(activity)
+        myRecyclerView.layoutManager = GridLayoutManager(activity,2)
         myRecyclerView.adapter = myRecyclerViewAdapter
 
         val database = CardDatabase.getInstance(context!!)
@@ -158,11 +158,9 @@ class CardPrefab(val photo : Int , val name : String,val content : String)
 
 class RecyclerViewAdapter(val mContext : Context,val mData : List<CardPrefab>) : RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val view = LayoutInflater.from(mContext).inflate(R.layout.row_function,parent,false)
+        val view = LayoutInflater.from(mContext).inflate(R.layout.row_function_all,parent,false)
         val mViewHolder = MyViewHolder(view)
-        mViewHolder.card_img = view.findViewById(R.id.img_card)
-        mViewHolder.card_name = view.findViewById(R.id.textView_card_name)
-        mViewHolder.card_discount = view.findViewById(R.id.textView_card_discount)
+        mViewHolder.card_img = view.findViewById(R.id.img_card_all)
         return mViewHolder
     }
 
@@ -172,8 +170,6 @@ class RecyclerViewAdapter(val mContext : Context,val mData : List<CardPrefab>) :
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.card_img.setImageResource(mData.get(position).photo)
-        holder.card_name.setText(mData.get(position).name)
-        holder.card_discount.setText(mData.get(position).content)
         holder.itemView.setOnClickListener{
             onAllCardClicked(position)
         }
@@ -182,8 +178,6 @@ class RecyclerViewAdapter(val mContext : Context,val mData : List<CardPrefab>) :
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         lateinit var card_img : ImageView
-        lateinit var card_name : TextView
-        lateinit var card_discount : TextView
     }
 
     private fun onAllCardClicked(position: Int){
@@ -203,8 +197,5 @@ class RecyclerViewAdapter(val mContext : Context,val mData : List<CardPrefab>) :
     }
 }
 
-class temp{
-
-}
 
 
